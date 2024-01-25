@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
-# Bash script that displays: content of the current directory in ls format
-# Where only the part of the name after the first dash is displayed
-# with the for loop
+# This script displays the content of the current directory
+# in a list format, showing only the part of the name after the first dash
 
-ls=$(ls)
+for file in *; do
+    # Check if the file is a regular file (not a directory)
+    if [ -f "$file" ]; then
+        # Extract the part of the name after the first dash
+        name_part=$(echo "$file" | cut -d'-' -f2-)
+        echo "$name_part"
+    fi
+done
 
-for u in $ls; do
-  echo "$u" | cut -d '-' -f2
-do
