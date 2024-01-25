@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Read /etc/passwd line by line
+while IFS=: read -r username x uid gid gecos home shell; do
+    # Display required information
+    echo "$username:$uid:$home"
+done < /etc/passwd
+
