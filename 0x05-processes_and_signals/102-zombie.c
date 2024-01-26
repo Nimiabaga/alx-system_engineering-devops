@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <time.h>
 
 /**
  * infinite_while - Creates an infinite loop
@@ -17,34 +19,25 @@ int infinite_while(void)
 }
 
 /**
- * main - Entry point
+ * main - Entry point of the program, creates 5 zombie processes
  *
  * Return: Always returns 0
  */
 int main(void)
 {
-	pid_t child_pid;
-	int i;
+	int process_count;
+	pid_t zombie_pid;
 
-	for (i = 0; i < 5; i++)
+	for (process_count = 0; process_count < 5; process_count++)
 	{
-		child_pid = fork();
+		zombie_pid = fork();
 
-		if (child_pid == -1)
-		{
-			perror("Error creating child process");
-			exit(EXIT_FAILURE);
-		}
+		if (!zombie_pid)
+			return (0);
 
-		if (child_pid == 0)
-		{
-			// Child process
-			printf("Zombie process created, PID: %d\n", getpid());
-			exit(0);
-		}
+		printf("Zombie process created, PID: %d\n", zombie_pid);
 	}
 
-	infinite_while(); // Calls the function to create an infinite loop
-
+	infinite_while();
 	return (0);
 }
