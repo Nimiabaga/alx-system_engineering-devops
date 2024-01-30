@@ -1,5 +1,3 @@
 #!/usr/bin/env ruby
-
-# Check if an argument is provided
-if ARGV.length == 1
-  input_string = ARGV[0]
+# Regular expression simply matching school
+puts ARGV[0].scan(/School/).join
