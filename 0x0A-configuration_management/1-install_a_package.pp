@@ -1,12 +1,6 @@
-# 1-install_a_package.pp
+# Using Puppet install flask
 
-# First part of the code to install Flask package
-package { 'flask':
-  ensure => '2.1.0',
+package {'Flask':
+  ensure   => '2.1.0',
+  provider => 'pip3',
 }
-
-# Second part of the code to install Werkzeug package
-package { 'werkzeug':
-  ensure => '2.1.1',
-}
-
