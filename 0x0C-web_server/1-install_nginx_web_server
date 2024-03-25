@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Install and Start Nginx with the following configuration
+
+sudo apt-get update -y
+sudo apt-get install nginx -y
+ufw allow 'Nginx HTTP'
+
+# Create index.nginx-debian.html with "Hello World!" content
+echo 'Hello World!' > /var/www/html/index.nginx-debian.html
+
+# Start nginx
+sudo service nginx start
