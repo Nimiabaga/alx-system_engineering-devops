@@ -1,22 +1,27 @@
-# 2-puppet_custom_http_response_header.pp
+# Install,Config with a custom header and Start Nginx
+
+# Update package lists
+exec { 'apt-update':
+  command => '/usr/bin/apt-get update',
+}
 
 # Install Nginx package
 package { 'nginx':
-  ensure => installed,
+  ensure  => installed,
+  require => Exec['apt-update'],
 }
 
-# Define custom HTTP header response
-file { '/etc/nginx/sites-available/default':
-  ensure  => present,
-  content => template('nginx/default.erb'),
+# Add a custom HTTP header
+file_line {'Adding_Header':
+  ensure  => 'present',
+  path    => '/etc/nginx/sites-available/default',
+  after   => 'listen 80 default_server;',
+  line    => '    add_header X-Served-By $hostname;',
   require => Package['nginx'],
-  notify  => Service['nginx'],
 }
 
-# Restart Nginx service
+# Ensure Nginx service is running
 service { 'nginx':
   ensure  => running,
-  enable  => true,
-  require => File['/etc/nginx/sites-available/default'],
+  require => Package['nginx'],
 }
-
