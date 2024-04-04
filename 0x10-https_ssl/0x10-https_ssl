@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Function to get info about domains and subdomains
+
+get_domain_info() {
+    domain=$1
+    subdomain=$2
+
+    if [ -z "$subdomain" ]; then
+        subdomains=("www" "lb-01" "web-01" "web-02")
+    else
+        subdomains=("$subdomain")
+    fi
+
+    for sub in "${subdomains[@]}"; do
+        ipaddress=$(dig +short "$sub.$domain" | tr -d "\n")
+        record=$(dig "$sub.$domain" | grep -A1 'ANSWER SECTION:' | awk '{print $4}' | tr -d "\n")
+        echo "The subdomain $sub is a $record record and points to $ipaddress"
+    done
+}
+
+# Check for required arguments
+if [ $# -eq 1 ]; then
+    get_domain_info "$1"
+elif [ $# -eq 2 ]; then
+    get_domain_info "$1" "$2"
+fi
